@@ -18,7 +18,7 @@ export class TemaService {
   }
 
   getByIdTema(id: number) {
-    return this.http.get(`http://localhost:8080/tema/${id}`, this.token)
+    return this.http.get(`http://localhost:8080/tema/${id}`, this.token) /* ${id} --> esta consumindo a varival do backEnd*/
   }
 
   postTema(tema: Tema) {
@@ -30,8 +30,14 @@ export class TemaService {
   }
 
  deleteTema(id: number) {
-    return this.http.delete(`http://localhost:8080/tema/${id}`, this.token)
+    return this.http.delete(`http://localhost:8080/tema/${id}`, this.token) /* ${id} --> esta consumindo a varival do backEnd*/
   }
+
+  getByNomeTema(nome: string){
+    return this.http.get(`http://localhost:8080/tema/nome/${nome}`, this.token) /* ${nome} --> esta consumindo a varival do backEnd*/
+  }
+
+  
 
   
 }
