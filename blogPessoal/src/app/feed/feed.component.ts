@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Postagem } from '../model/Postagem';
 import { Tema } from '../model/Tema';
 import { AlertasService } from '../service/alertas.service';
@@ -22,15 +23,24 @@ export class FeedComponent implements OnInit {
   tema: Tema = new Tema()
   listaTemas: Tema[]
   idTema: number
+  nomeTema: string
 
 
   constructor(
     private postagemService: PostagemService,
     private temaService: TemaService,
-    private alert: AlertasService
+    private alert: AlertasService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    let token = localStorage.getItem('token')
+
+    if(token == null) {
+      this.router.navigate(['/login'])
+      this.alert.showAlertDanger('Faça o login antes de entrar no feed')
+    }
+
     window.scroll(0, 0)
 
     this.findAllPostagens()
@@ -80,6 +90,17 @@ export class FeedComponent implements OnInit {
         this.listaPostagens = resp
       })
     }
+  }
+
+  findByNomeTema() {
+    if (this.nomeTema === ''){
+      this.findAllTemas()
+    } else {
+      this.temaService.getByNomeTema(this.nomeTema).subscribe((resp: Tema[]) => {
+      this.listaTemas = resp
+      })
+    }
+
   }
 
 
